@@ -1,0 +1,8 @@
+name: CustomAttributes
+main: com.example.customattributes.CustomAttributesPlugin
+version: 1.0.0
+api-version: '1.21'
+commands:
+  attributeedit:
+    description: Edit armor attributes and durability on the held armor item.
+    usage: /attributeedit set <durability|armor|armour|toughness|knockbackres> <value>
