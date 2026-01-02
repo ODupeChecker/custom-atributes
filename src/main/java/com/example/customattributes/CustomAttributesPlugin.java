@@ -16,6 +16,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CustomAttributesPlugin extends JavaPlugin {
+    private static final String[] SUBCOMMANDS = {
+        "durability",
+        "armor",
+        "armour",
+        "toughness",
+        "knockbackres",
+        "bonushealth"
+    };
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -25,7 +33,7 @@ public class CustomAttributesPlugin extends JavaPlugin {
         }
 
         if (args.length != 3 || !args[0].equalsIgnoreCase("set")) {
-            sender.sendMessage("Usage: /attributeedit set <durability|armor|armour|toughness|knockbackres> <value>");
+            sender.sendMessage("Usage: /attributeedit set <durability|armor|armour|toughness|knockbackres|bonushealth> <value>");
             return true;
         }
 
@@ -91,6 +99,7 @@ public class CustomAttributesPlugin extends JavaPlugin {
             case "armor", "armour" -> Attribute.GENERIC_ARMOR;
             case "toughness" -> Attribute.GENERIC_ARMOR_TOUGHNESS;
             case "knockbackres", "knockbackresistance", "knockback" -> Attribute.GENERIC_KNOCKBACK_RESISTANCE;
+            case "bonushealth", "health", "maxhealth" -> Attribute.GENERIC_MAX_HEALTH;
             default -> null;
         };
     }
@@ -131,5 +140,28 @@ public class CustomAttributesPlugin extends JavaPlugin {
             return EquipmentSlot.FEET;
         }
         return null;
+    }
+
+    @Override
+    public java.util.List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        if (!command.getName().equalsIgnoreCase("attributeedit")) {
+            return java.util.Collections.emptyList();
+        }
+
+        if (args.length == 1) {
+            if ("set".startsWith(args[0].toLowerCase(Locale.ROOT))) {
+                return java.util.Collections.singletonList("set");
+            }
+            return java.util.Collections.emptyList();
+        }
+
+        if (args.length == 2 && args[0].equalsIgnoreCase("set")) {
+            String prefix = args[1].toLowerCase(Locale.ROOT);
+            return java.util.Arrays.stream(SUBCOMMANDS)
+                .filter(entry -> entry.startsWith(prefix))
+                .toList();
+        }
+
+        return java.util.Collections.emptyList();
     }
 }

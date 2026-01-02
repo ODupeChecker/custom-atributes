@@ -5,4 +5,6 @@ api-version: '1.21'
 commands:
   attributeedit:
     description: Edit armor attributes and durability on the held armor item.
-    usage: /attributeedit set <durability|armor|armour|toughness|knockbackres> <value>
+    usage: /attributeedit set <durability|armor|armour|toughness|knockbackres|bonushealth> <value>
+    aliases:
+      - atributeedit
